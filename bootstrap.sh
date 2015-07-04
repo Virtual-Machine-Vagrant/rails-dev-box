@@ -7,21 +7,27 @@ rails_version='4.2.3'
 function install {
     echo Installing $1...
     shift
-    apt-get -y install "$@"
+    sudo apt-get -y install "$@"
 }
 
 
 echo 'Updating package information...'
-apt-get -y update
+sudo apt-get -y update
 
 
 install 'Git' git
+install 'dos2unix' dos2unix # to remove windows style new lines
+
+
+install 'ExecJS runtime' nodejs
 
 
 # Install PostgreSQL and create user 'vagrant'
-update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 install 'PostgreSQL' postgresql libpq-dev
 sudo -u postgres createuser --superuser vagrant
+echo 'host all all all password' | sudo tee -a /etc/postgresql/9.3/main/pg_hba.conf
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
 
 
 echo 'Installing RVM and Ruby...'
@@ -44,9 +50,6 @@ rvm use "$ruby_version"@rails-"$rails_version" --default
 
 echo 'Installing Rails...'
 gem install rails -v "$rails_version"
-
-
-install 'ExecJS runtime' nodejs
 
 
 echo 'All set, rock on!'

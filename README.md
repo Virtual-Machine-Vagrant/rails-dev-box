@@ -25,13 +25,15 @@ Port 3000 in the host computer is forwarded to port 3000 in the virtual machine.
 
     rails server -b 0.0.0.0
 
+Don't forget to look at some helper shell scripts for newbies.
+
 ## What's In The Box
 
 * Git
 
 * RVM with Ruby 2.2.2 and Rails 4.2.3 default gemset
 
-* Latest Postgres version with "vagrant" superuser
+* Latest Postgres version with "vagrant" superuser configured to recieve connections from your host machine
 
 * An ExecJS runtime
 
