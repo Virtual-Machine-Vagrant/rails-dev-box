@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Bootstrap file for setting Ruby on Rails development environment
 
-ruby_version='2.2.3'
-rails_version='4.2.4'
+ruby_version='2.2'
+rails_version='4.2'
 
 
 function install {
@@ -17,7 +17,7 @@ sudo apt-get -y update
 
 
 install 'Git' git
-install 'dos2unix' dos2unix # to remove windows style new lines
+install 'dos2unix' dos2unix  # to remove windows style new lines
 
 
 install 'ExecJS runtime' nodejs

@@ -31,7 +31,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * Git
 
-* RVM with Ruby 2.2.2 and Rails 4.2.3 default gemset
+* RVM with Ruby 2.2 and Rails 4.2 default gemset
 
 * Latest Postgres version with "vagrant" superuser configured to recieve connections from your host machine
 
