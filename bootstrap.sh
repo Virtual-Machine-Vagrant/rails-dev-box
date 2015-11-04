@@ -3,6 +3,7 @@
 
 ruby_version='2.2'
 rails_version='4.2'
+postgresql_version='9.4'
 
 
 function install {
@@ -25,10 +26,10 @@ install 'ExecJS runtime' nodejs
 
 # Install PostgreSQL and create user 'vagrant'
 sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
-install 'PostgreSQL' postgresql libpq-dev
+install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
 sudo -u postgres createuser --superuser vagrant
-echo 'host all all all password' | sudo tee -a /etc/postgresql/9.3/main/pg_hba.conf
-sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
+echo 'host all all all password' | sudo tee -a /etc/postgresql/"$postgresql_version"/main/pg_hba.conf
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/"$postgresql_version"/main/postgresql.conf
 
 
 echo 'Installing RVM and Ruby...'
