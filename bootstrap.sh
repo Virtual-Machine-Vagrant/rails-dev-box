@@ -33,6 +33,7 @@ sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/po
 
 
 echo 'Installing RVM and Ruby...'
+install 'libgmp-dev' libgmp-dev # fix problems with nokogiri installation on rvm with ruby 2.2.3
 install 'cUrl' curl
 \curl -sSL https://get.rvm.io | bash
 source /home/vagrant/.rvm/scripts/rvm
