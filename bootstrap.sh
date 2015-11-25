@@ -3,7 +3,7 @@
 
 ruby_version='2.2'
 rails_version='4.2'
-postgresql_version='9.4'
+postgresql_version='9.3'
 
 
 function install {
@@ -52,7 +52,7 @@ rvm gemset create rails-"$rails_version"
 rvm use "$ruby_version"@rails-"$rails_version" --default
 
 echo 'Installing Rails...'
-gem install rails -v "$rails_version"
+gem install rails -v "~> $rails_version"
 
 
 echo 'All set, rock on!'

@@ -15,4 +15,4 @@ A collection of plugins for Atom for comfortable Ruby on Rails development
 
 * [linter](https://atom.io/packages/linter) - Linter is a base linter provider for the Hackable Atom Editor.
 
-* [linter-rubocop](https://atom.io/packages/linter-ruby) - Lint Ruby on the fly, using rubocop. Requires [Rubocop](https://github.com/bbatsov/rubocop) to lint Ruby code.
+* [linter-rubocop](https://atom.io/packages/linter-rubocop) - Lint Ruby on the fly, using rubocop. Requires [Rubocop](https://github.com/bbatsov/rubocop) to lint Ruby code.
