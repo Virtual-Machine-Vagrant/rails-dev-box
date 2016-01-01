@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Bootstrap file for setting Ruby on Rails development environment
 
-ruby_version='2.2'
+ruby_version='2.3'
 rails_version='4.2'
 postgresql_version='9.3'
 

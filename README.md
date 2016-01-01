@@ -31,14 +31,14 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * Git
 
-* RVM with Ruby 2.2 and Rails 4.2 default gemset
+* RVM with Ruby 2.3 and Rails 4.2 default gemset
 
-* PostgreSQL 9.4 with "vagrant" superuser configured to recieve connections from your host machine
+* PostgreSQL 9.3 with "vagrant" superuser configured to recieve connections from your host machine
 
 * An ExecJS runtime
 
-* Disabled automatic Ruby documentation installation 
+* Disabled automatic Ruby documentation installation
 
 ## License
 
-Released under the MIT License, Copyright (c) 2015 Sergey Kanukov, inspired by official [Rails dev box](https://github.com/rails/rails-dev-box).
+Released under the MIT License, Copyright (c) 2015-2016 Sergey Kanukov, inspired by official [Rails dev box](https://github.com/rails/rails-dev-box).
