@@ -18,9 +18,6 @@ sudo apt-get -y update
 
 
 install 'Git' git
-install 'dos2unix' dos2unix  # to remove windows style new lines
-
-
 install 'ExecJS runtime' nodejs
 
 

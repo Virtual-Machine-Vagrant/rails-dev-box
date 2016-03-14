@@ -1,5 +1,5 @@
 # rails-dev-box
-A Vagrant powered virtual machine for Ruby on Rails application development
+A Vagrant powered virtual machine for Ruby on Rails application development.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ A Vagrant powered virtual machine for Ruby on Rails application development
 
 Building the virtual machine is this easy:
 
-    host $ git clone https://github.com/s-kanukov/rails-dev-box
+    host $ git clone https://github.com/skanukov/rails-dev-box
     host $ cd rails-dev-box
     host $ vagrant up
 
@@ -33,7 +33,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * RVM with Ruby 2.3 and Rails 4.2 default gemset
 
-* PostgreSQL 9.3 with "vagrant" superuser configured to recieve connections from your host machine
+* PostgreSQL 9.3 with "vagrant" superuser configured to receive connections from your host machine
 
 * An ExecJS runtime
 
