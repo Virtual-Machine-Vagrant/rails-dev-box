@@ -4,43 +4,75 @@
 ruby_version='2.3'
 rails_version='4.2'
 
-
 function install {
-    echo Installing $1...
-    shift
-    sudo apt-get -y install "$@"
+  echo Installing $1...
+  shift
+  sudo apt-get -y install "$@"
 }
 
+function update_packages {
+  echo 'Updating package information...'
 
-echo 'Updating package information...'
-sudo apt-get -y update
+  sudo apt-get -y update
+}
 
+function install_git {
+  install 'Git' git
+}
 
-install 'Git' git
-install 'ExecJS runtime' nodejs
+function install_node {
+  install 'ExecJS runtime' nodejs
+}
 
+function install_dependencies {
+  install_git
+  install_node
+}
 
-echo 'Installing RVM and Ruby...'
-install 'libgmp-dev' libgmp-dev # fix problems with nokogiri installation on rvm with ruby 2.2.3
-install 'cUrl' curl
-\curl -sSL https://get.rvm.io | bash
-source /home/vagrant/.rvm/scripts/rvm
-rvm install "$ruby_version"
+function install_rvm {
+  echo 'Installing RVM...'
 
-# No need to install documentation for gems
-echo 'Disabling automatic Ruby documentation installation...'
-touch ~/.gemrc
-echo 'gem: --no-rdoc --no-ri' > ~/.gemrc
+  install 'cUrl' curl
+  \curl -sSL https://get.rvm.io | bash
+  source /home/vagrant/.rvm/scripts/rvm
+}
 
-echo 'Installing Bundler...'
-gem install bundler
+function install_ruby {
+  echo 'Installing Ruby...'
 
-echo 'Creating rails gemset...'
-rvm gemset create rails-"$rails_version"
-rvm use "$ruby_version"@rails-"$rails_version" --default
+  rvm install "$ruby_version"
+}
 
-echo 'Installing Rails...'
-gem install rails -v "~> $rails_version"
+function disable_ruby_doc {
+  echo 'Disabling automatic Ruby documentation installation...'
 
+  touch ~/.gemrc
+  echo 'gem: --no-rdoc --no-ri' > ~/.gemrc
+}
+
+function install_rvm_with_ruby {
+  install_rvm
+  install_ruby
+  disable_ruby_doc
+}
+
+function create_rails_gemset {
+  echo 'Creating rails gemset...'
+
+  rvm gemset create rails-"$rails_version"
+  rvm use "$ruby_version"@rails-"$rails_version" --default
+}
+
+function install_rails {
+  echo 'Installing Rails...'
+
+  gem install rails -v "~> $rails_version"
+}
+
+update_packages
+install_dependencies
+install_rvm_with_ruby
+create_rails_gemset
+install_rails
 
 echo 'All set, rock on!'
