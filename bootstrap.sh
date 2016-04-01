@@ -3,7 +3,6 @@
 
 ruby_version='2.3'
 rails_version='4.2'
-postgresql_version='9.3'
 
 
 function install {
@@ -21,14 +20,6 @@ install 'Git' git
 install 'ExecJS runtime' nodejs
 
 
-# Install PostgreSQL and create user 'vagrant'
-sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
-install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
-sudo -u postgres createuser --superuser vagrant
-echo 'host all all all password' | sudo tee -a /etc/postgresql/"$postgresql_version"/main/pg_hba.conf
-sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/"$postgresql_version"/main/postgresql.conf
-
-
 echo 'Installing RVM and Ruby...'
 install 'libgmp-dev' libgmp-dev # fix problems with nokogiri installation on rvm with ruby 2.2.3
 install 'cUrl' curl
@@ -39,7 +30,7 @@ rvm install "$ruby_version"
 # No need to install documentation for gems
 echo 'Disabling automatic Ruby documentation installation...'
 touch ~/.gemrc
-echo "gem: --no-rdoc --no-ri" > ~/.gemrc
+echo 'gem: --no-rdoc --no-ri' > ~/.gemrc
 
 echo 'Installing Bundler...'
 gem install bundler

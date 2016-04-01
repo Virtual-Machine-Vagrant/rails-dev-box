@@ -33,8 +33,6 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * RVM with Ruby 2.3 and Rails 4.2 default gemset
 
-* PostgreSQL 9.3 with "vagrant" superuser configured to receive connections from your host machine
-
 * An ExecJS runtime
 
 * Disabled automatic Ruby documentation installation
