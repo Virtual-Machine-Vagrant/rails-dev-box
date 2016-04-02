@@ -33,7 +33,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * RVM with Ruby 2.3 and Rails 4.2 default gemset
 
-* An ExecJS runtime
+* Latest NodeJS v5 with npm
 
 * Disabled automatic Ruby documentation installation
 

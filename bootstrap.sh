@@ -20,8 +20,21 @@ function install_git {
   install 'Git' git
 }
 
+function set_node_permissions {
+  echo 'Setting correct NodeJS permissions...'
+
+  mkdir ~/.npm-global
+  npm config set prefix '~/.npm-global'
+  echo '' | tee -a ~/.profile # insert empty line first
+  echo 'export PATH=~/.npm-global/bin:$PATH' | tee -a ~/.profile
+  source ~/.profile
+}
+
 function install_node {
-  install 'ExecJS runtime' nodejs
+  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  install 'NodeJS with npm' nodejs
+
+  set_node_permissions
 }
 
 function install_dependencies {
