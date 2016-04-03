@@ -7,6 +7,8 @@ A Vagrant powered virtual machine for Ruby on Rails application development.
 
 * [Vagrant](http://vagrantup.com)
 
+* [Vagrant WinNFSd plugin](https://github.com/winnfsd/vagrant-winnfsd) - if you using Windows as a host system
+
 ## How To Build The Virtual Machine
 
 Building the virtual machine is this easy:

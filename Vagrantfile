@@ -14,8 +14,15 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = 'ubuntu/trusty64'
 
-  config.vm.network 'private_network', ip: '192.168.33.10'
-  config.vm.network 'forwarded_port', guest: 3000, host: 3000
+  # Enable NFS synced folders
+  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+
+  # NFS requires setting private network
+  config.vm.network 'private_network', type: 'dhcp'
+
+  # Forward ports
+  config.vm.network 'forwarded_port', guest: 3000, host: 3000 # Rails dev port
+
   config.vm.provision 'shell', path: 'bootstrap.sh', privileged: false,
                                keep_color: true
 
