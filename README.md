@@ -3,11 +3,11 @@ A Vagrant powered virtual machine for Ruby on Rails application development.
 
 ## Requirements
 
-* [VirtualBox](https://www.virtualbox.org)
+* [VirtualBox](https://www.virtualbox.org).
 
-* [Vagrant](http://vagrantup.com)
+* [Vagrant](http://vagrantup.com).
 
-* [Vagrant WinNFSd plugin](https://github.com/winnfsd/vagrant-winnfsd) - if you using Windows as a host system
+* [rsync from Cygwin](http://cygwin.com/) - if you using Windows as a host system. `Openssh` and `rsync` are required packages. Make sure to add .../cygwin/bin folder to your PATH variable.
 
 ## How To Build The Virtual Machine
 
@@ -29,15 +29,37 @@ Port 3000 in the host computer is forwarded to port 3000 in the virtual machine.
 
 Don't forget to look at some helper shell scripts for newbies.
 
+## Syncing files on host and client systems
+
+Run your virtual machine:
+
+    vagrant up
+
+Then you can run this to keep files syncing instantly on file update:
+
+    vagrant rsync-auto
+
+## Fixing rsync protocol error
+
+If you have rsync protocol error, there is a fix (from [Github issues](https://github.com/mitchellh/vagrant/issues/6702)):
+
+* Edit `$VAGRANT_HOME\embedded\gems\gems\vagrant-1.8.1\plugins\synced_folders\rsync\helper.rb`
+
+* Remove the following codes (line 77~79):
+
+      "-o ControlMaster=auto " +
+      "-o ControlPath=#{controlpath} " +
+      "-o ControlPersist=10m " +
+
 ## What's In The Box
 
-* Git
+* Git.
 
-* RVM with Ruby 2.3 and Rails 4.2 default gemset
+* Latest NodeJS v5 with npm.
 
-* Latest NodeJS v5 with npm
+* RVM with Ruby 2.3 and Rails 4.2 default gemset.
 
-* Disabled automatic Ruby documentation installation
+* Disabled automatic Ruby documentation installation.
 
 ## License
 
