@@ -47,9 +47,9 @@ If you have rsync protocol error, there is a fix (from [Github issues](https://g
 
 * Remove the following codes (line 77~79):
 
-      "-o ControlMaster=auto " +
-      "-o ControlPath=#{controlpath} " +
-      "-o ControlPersist=10m " +
+        "-o ControlMaster=auto " +
+        "-o ControlPath=#{controlpath} " +
+        "-o ControlPersist=10m " +
 
 ## What's In The Box
 
