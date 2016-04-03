@@ -15,9 +15,8 @@ Vagrant.configure(2) do |config|
   config.vm.box = 'ubuntu/trusty64'
 
   # Enable rsync synced folders
-  config.vm.synced_folder '.', '/vagrant', type: 'rsync'
-
-  # config.vm.network 'private_network', type: 'dhcp'
+  config.vm.synced_folder '.', '/vagrant', type: 'rsync',
+                                           rsync__exclude: '.git/'
 
   # Forward ports
   config.vm.network 'forwarded_port', guest: 3000, host: 3000 # Rails dev port
