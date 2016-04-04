@@ -7,6 +7,10 @@ A Vagrant powered virtual machine for Ruby on Rails application development.
 
 * [Vagrant](http://vagrantup.com).
 
+## Recommended software
+
+* [Vagrant-vbguest plugin](https://github.com/dotless-de/vagrant-vbguest).
+
 ## How To Build The Virtual Machine
 
 Building the virtual machine is this easy:
@@ -26,6 +30,12 @@ Port 3000 in the host computer is forwarded to port 3000 in the virtual machine.
     rails server -b 0.0.0.0
 
 Don't forget to look at some helper shell scripts for newbies.
+
+## Install recommended software
+
+Install vagrant-vbguest plugin:
+
+    $ vagrant plugin install vagrant-vbguest
 
 ## What's In The Box
 
