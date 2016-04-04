@@ -7,8 +7,6 @@ A Vagrant powered virtual machine for Ruby on Rails application development.
 
 * [Vagrant](http://vagrantup.com).
 
-* [rsync from Cygwin](http://cygwin.com/) - if you using Windows as a host system. `Openssh` and `rsync` are required packages. Make sure to add .../cygwin/bin folder to your PATH variable.
-
 ## How To Build The Virtual Machine
 
 Building the virtual machine is this easy:
@@ -28,28 +26,6 @@ Port 3000 in the host computer is forwarded to port 3000 in the virtual machine.
     rails server -b 0.0.0.0
 
 Don't forget to look at some helper shell scripts for newbies.
-
-## Syncing files on host and client systems
-
-Run your virtual machine:
-
-    vagrant up
-
-Then you can run this to keep files syncing instantly on file update:
-
-    vagrant rsync-auto
-
-## Fixing rsync protocol error
-
-If you have rsync protocol error, there is a fix (from [Github issues](https://github.com/mitchellh/vagrant/issues/6702)):
-
-* Edit `$VAGRANT_HOME\embedded\gems\gems\vagrant-1.8.1\plugins\synced_folders\rsync\helper.rb`
-
-* Remove the following codes (line 77~79):
-
-        "-o ControlMaster=auto " +
-        "-o ControlPath=#{controlpath} " +
-        "-o ControlPersist=10m " +
 
 ## What's In The Box
 
