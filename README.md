@@ -3,13 +3,13 @@ A Vagrant powered virtual machine for Ruby on Rails application development.
 
 ## Requirements
 
-* [VirtualBox](https://www.virtualbox.org).
+* [VirtualBox](https://www.virtualbox.org)
 
-* [Vagrant](http://vagrantup.com).
+* [Vagrant](http://vagrantup.com)
 
 ## Recommended software
 
-* [Vagrant-vbguest plugin](https://github.com/dotless-de/vagrant-vbguest).
+* [Vagrant-vbguest plugin](https://github.com/dotless-de/vagrant-vbguest)
 
 ## How To Build The Virtual Machine
 
@@ -39,13 +39,13 @@ Install vagrant-vbguest plugin:
 
 ## What's In The Box
 
-* Git.
+* Git
 
-* Latest NodeJS v5 with npm.
+* Latest NodeJS v5 with npm
 
-* RVM with Ruby 2.3 and Rails 4.2 default gemset.
+* RVM with Ruby 2.3 and Rails 4.2 default gemset
 
-* Disabled automatic Ruby documentation installation.
+* Disabled automatic Ruby documentation installation
 
 ## License
 
