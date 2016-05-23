@@ -2,7 +2,7 @@
 # Bootstrap file for setting Ruby on Rails development environment
 
 ruby_version='2.3' # leave empty for current stable release
-rails_version='4.2'
+rails_version='5.0'
 
 # Heper functions
 function append_to_file {
@@ -117,7 +117,8 @@ function switch_ruby_once {
 
 function install_rails {
   echo 'Installing Rails...'
-  gem install rails -v "~> $rails_version"
+  # gem install rails -v "~> $rails_version"
+  gem install rails --pre
 }
 
 function install_gems {
