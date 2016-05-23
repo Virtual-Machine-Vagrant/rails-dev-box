@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # Bootstrap file for setting Ruby on Rails development environment
 
-ruby_version='2.3'
+ruby_version='2.3' # leave empty for current stable release
 rails_version='4.2'
+
+# Heper functions
+function append_to_file {
+  echo $1 | tee -a $2
+}
 
 function install {
   echo Installing $1...
@@ -10,12 +15,77 @@ function install {
   sudo apt-get -y install "$@"
 }
 
+function return_to_home_dir {
+  cd
+}
+# End of Heper functions
+
 function update_packages {
   echo 'Updating package information...'
 
   sudo apt-get -y update
 }
 
+# Ruby installation
+function install_ruby_install {
+  wget -O ruby-install-0.6.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz
+  tar -xzvf ruby-install-0.6.0.tar.gz
+  cd ruby-install-0.6.0/
+  sudo make install
+
+  return_to_home_dir
+}
+
+function install_ruby {
+  echo 'Installing Ruby...'
+
+  install_ruby_install
+  ruby-install ruby "$ruby_version"
+}
+
+function install_chruby {
+  wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
+  tar -xzvf chruby-0.3.9.tar.gz
+  cd chruby-0.3.9/
+  sudo make install
+
+  return_to_home_dir
+}
+
+function enable_ruby_auto_switch {
+  append_to_file ruby-"$ruby_version" ~/.ruby-version
+  append_to_file 'source /usr/local/share/chruby/auto.sh' ~/.bashrc
+}
+
+function config_chruby {
+  append_to_file '' ~/.bashrc # insert empty line first
+  append_to_file 'source /usr/local/share/chruby/chruby.sh' ~/.bashrc
+
+  enable_ruby_auto_switch
+
+  source ~/.bashrc
+}
+
+function install_and_config_chruby {
+  echo 'Installing chruby...'
+
+  install_chruby
+  config_chruby
+}
+
+function install_ruby_with_chruby {
+  install_ruby
+  install_and_config_chruby
+}
+
+function disable_ruby_doc {
+  echo 'Disabling automatic Ruby documentation installation...'
+
+  append_to_file 'gem: --no-rdoc --no-ri' ~/.gemrc
+}
+# End of Ruby installation
+
+# Additional software installation
 function install_git {
   install 'Git' git
 }
@@ -25,8 +95,8 @@ function set_node_permissions {
 
   mkdir ~/.npm-global
   npm config set prefix '~/.npm-global'
-  echo '' | tee -a ~/.profile # insert empty line first
-  echo 'export PATH=~/.npm-global/bin:$PATH' | tee -a ~/.profile
+  append_to_file '' ~/.profile # insert empty line first
+  append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
   source ~/.profile
 }
 
@@ -37,55 +107,28 @@ function install_node {
   set_node_permissions
 }
 
-function install_dependencies {
+function install_additional_soft {
   install_git
   install_node
 }
+# End of Additional software installation
 
-function install_rvm {
-  echo 'Installing RVM...'
-
-  install 'cUrl' curl
-  \curl -sSL https://get.rvm.io | bash
-  source /home/vagrant/.rvm/scripts/rvm
-}
-
-function install_ruby {
-  echo 'Installing Ruby...'
-
-  rvm install "$ruby_version"
-}
-
-function disable_ruby_doc {
-  echo 'Disabling automatic Ruby documentation installation...'
-
-  touch ~/.gemrc
-  echo 'gem: --no-rdoc --no-ri' > ~/.gemrc
-}
-
-function install_rvm_with_ruby {
-  install_rvm
-  install_ruby
-  disable_ruby_doc
-}
-
-function create_rails_gemset {
-  echo 'Creating rails gemset...'
-
-  rvm gemset create rails-"$rails_version"
-  rvm use "$ruby_version"@rails-"$rails_version" --default
+function switch_ruby {
+  source /usr/local/share/chruby/chruby.sh
+  chruby ruby-"$ruby_version"
 }
 
 function install_rails {
   echo 'Installing Rails...'
 
+  switch_ruby # Manually switch Ruby for this time
   gem install rails -v "~> $rails_version"
 }
 
 update_packages
-install_dependencies
-install_rvm_with_ruby
-create_rails_gemset
+install_ruby_with_chruby
+disable_ruby_doc
+install_additional_soft
 install_rails
 
 echo 'All set, rock on!'
