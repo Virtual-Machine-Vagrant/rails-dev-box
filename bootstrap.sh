@@ -22,7 +22,6 @@ function return_to_home_dir {
 
 function update_packages {
   echo 'Updating package information...'
-
   sudo apt-get -y update
 }
 
@@ -38,7 +37,6 @@ function install_ruby_install {
 
 function install_ruby {
   echo 'Installing Ruby...'
-
   install_ruby_install
   ruby-install ruby "$ruby_version"
 }
@@ -53,22 +51,24 @@ function install_chruby {
 }
 
 function enable_ruby_auto_switch {
-  append_to_file ruby-"$ruby_version" ~/.ruby-version
   append_to_file 'source /usr/local/share/chruby/auto.sh' ~/.bashrc
+}
+
+function set_default_ruby {
+  append_to_file '' ~/.profile # insert empty line first
+  append_to_file "chruby ruby-$ruby_version" ~/.profile
 }
 
 function config_chruby {
   append_to_file '' ~/.bashrc # insert empty line first
   append_to_file 'source /usr/local/share/chruby/chruby.sh' ~/.bashrc
 
+  set_default_ruby
   enable_ruby_auto_switch
-
-  source ~/.bashrc
 }
 
 function install_and_config_chruby {
   echo 'Installing chruby...'
-
   install_chruby
   config_chruby
 }
@@ -80,7 +80,6 @@ function install_ruby_with_chruby {
 
 function disable_ruby_doc {
   echo 'Disabling automatic Ruby documentation installation...'
-
   append_to_file 'gem: --no-rdoc --no-ri' ~/.gemrc
 }
 # End of Ruby installation
@@ -92,12 +91,10 @@ function install_git {
 
 function set_node_permissions {
   echo 'Setting correct NodeJS permissions...'
-
   mkdir ~/.npm-global
   npm config set prefix '~/.npm-global'
   append_to_file '' ~/.profile # insert empty line first
   append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
-  source ~/.profile
 }
 
 function install_node {
@@ -113,22 +110,31 @@ function install_additional_soft {
 }
 # End of Additional software installation
 
-function switch_ruby {
+function switch_ruby_once {
   source /usr/local/share/chruby/chruby.sh
   chruby ruby-"$ruby_version"
 }
 
 function install_rails {
   echo 'Installing Rails...'
-
-  switch_ruby # Manually switch Ruby for this time
   gem install rails -v "~> $rails_version"
+}
+
+function install_gems {
+  switch_ruby_once # Manually switch Ruby for provision run
+
+  install_rails
+}
+
+function update_profile {
+  source ~/.profile
 }
 
 update_packages
 install_ruby_with_chruby
 disable_ruby_doc
 install_additional_soft
-install_rails
+install_gems
+update_profile
 
 echo 'All set, rock on!'
