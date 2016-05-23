@@ -31,7 +31,7 @@ function set_node_permissions {
 }
 
 function install_node {
-  curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
   install 'NodeJS with npm' nodejs
 
   set_node_permissions
