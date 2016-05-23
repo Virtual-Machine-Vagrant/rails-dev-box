@@ -41,9 +41,9 @@ Install vagrant-vbguest plugin:
 
 * Git
 
-* Latest NodeJS v5 with npm
+* NodeJS v4 LTS with npm
 
-* RVM with Ruby 2.3 and Rails 4.2 default gemset
+* Ruby 2.3 with chruby and Rails 4.2
 
 * Disabled automatic Ruby documentation installation
 
