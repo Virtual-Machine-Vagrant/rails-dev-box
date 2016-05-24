@@ -3,10 +3,15 @@
 
 ruby_version='2.3' # leave empty for current stable release
 rails_version='5.0'
+postgresql_version='9.5'
 
 # Heper functions
 function append_to_file {
   echo $1 | tee -a $2
+}
+
+function append_to_file_sudo {
+  echo $1 | sudo tee -a $2
 }
 
 function install {
@@ -18,12 +23,12 @@ function install {
 function return_to_home_dir {
   cd
 }
-# End of Heper functions
 
 function update_packages {
   echo 'Updating package information...'
   sudo apt-get -y update
 }
+# End of Heper functions
 
 # Ruby installation
 function install_ruby_install {
@@ -104,9 +109,21 @@ function install_node {
   set_node_permissions
 }
 
+function install_postgresql {
+  append_to_file_sudo \
+    'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' \
+    /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    sudo apt-key add -
+  update_packages
+
+  install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
+}
+
 function install_additional_soft {
   install_git
   install_node
+  install_postgresql
 }
 # End of Additional software installation
 
@@ -127,7 +144,8 @@ function install_gems {
   install_rails
 }
 
-function update_profile {
+function update_bash_and_profile {
+  source ~/.bashrc
   source ~/.profile
 }
 
@@ -136,6 +154,6 @@ install_ruby_with_chruby
 disable_ruby_doc
 install_additional_soft
 install_gems
-update_profile
+update_bash_and_profile
 
 echo 'All set, rock on!'

@@ -39,13 +39,15 @@ Install vagrant-vbguest plugin:
 
 ## What's In The Box
 
+* Ruby 2.3 with chruby and disabled automatic documentation installation
+
+* Rails 5.0 pre-release
+
 * Git
 
 * NodeJS v4 LTS with npm
 
-* Ruby 2.3 with chruby and Rails 5.0
-
-* Disabled automatic Ruby documentation installation
+* PostgreSQL 9.5
 
 ## License
 
