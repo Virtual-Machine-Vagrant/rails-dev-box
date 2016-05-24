@@ -91,6 +91,9 @@ function disable_ruby_doc {
 
 # Additional software installation
 function install_git {
+  sudo add-apt-repository ppa:git-core/ppa
+  update_packages
+
   install 'Git' git
 }
 

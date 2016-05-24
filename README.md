@@ -43,7 +43,7 @@ Install vagrant-vbguest plugin:
 
 * Rails 5.0 pre-release
 
-* Git
+* Latest stable Git
 
 * NodeJS v4 LTS with npm
 
