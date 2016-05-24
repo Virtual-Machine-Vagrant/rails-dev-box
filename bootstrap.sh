@@ -123,10 +123,19 @@ function install_postgresql {
   install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
 }
 
+function create_db_user {
+  sudo -u postgres createuser -s -e vagrant
+}
+
+function install_postgresql_and_create_db_user {
+  install_postgresql
+  create_db_user
+}
+
 function install_additional_soft {
   install_git
   install_node
-  install_postgresql
+  install_postgresql_and_create_db_user
 }
 # End of Additional software installation
 
