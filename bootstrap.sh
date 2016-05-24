@@ -97,6 +97,11 @@ function install_git {
   install 'Git' git
 }
 
+function install_node {
+  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  install 'NodeJS with npm' nodejs
+}
+
 function set_node_permissions {
   echo 'Setting correct NodeJS permissions...'
   mkdir ~/.npm-global
@@ -105,10 +110,8 @@ function set_node_permissions {
   append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
 }
 
-function install_node {
-  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-  install 'NodeJS with npm' nodejs
-
+function install_node_and_set_permissions {
+  install_node
   set_node_permissions
 }
 
@@ -134,7 +137,7 @@ function install_postgresql_and_create_db_user {
 
 function install_additional_soft {
   install_git
-  install_node
+  install_node_and_set_permissions
   install_postgresql_and_create_db_user
 }
 # End of Additional software installation
