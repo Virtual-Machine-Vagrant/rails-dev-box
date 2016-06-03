@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Bootstrap file for setting Ruby on Rails development environment
 
-ruby_version='2.3' # leave empty for current stable release
-rails_version='5.0'
-postgresql_version='9.5'
+# leave empry to use current stable release or specify version, e.g. '2.3'
+postgresql_version='' # '9.5'
+ruby_version='' # '2.3'
+rails_version='' # '4.2'
 
 # Heper functions
 function append_to_file {
@@ -28,7 +29,66 @@ function update_packages {
   echo 'Updating package information...'
   sudo apt-get -y update
 }
+
+function update_bash {
+  source ~/.bashrc
+}
+
+function update_profile {
+  source ~/.profile
+}
 # End of Heper functions
+
+# Additional software installation
+function install_git {
+  sudo add-apt-repository ppa:git-core/ppa
+  update_packages
+
+  install 'Git' git
+}
+
+function install_node {
+  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  install 'NodeJS with npm' nodejs
+}
+
+function set_node_permissions {
+  echo 'Setting correct NodeJS permissions...'
+  mkdir ~/.npm-global
+  npm config set prefix '~/.npm-global'
+  append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
+  update_profile
+}
+
+function install_node_and_set_permissions {
+  install_node
+  set_node_permissions
+}
+
+function install_postgresql {
+  append_to_file_sudo \
+    'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' \
+    /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    sudo apt-key add -
+  update_packages
+
+  install_command='postgresql'
+  if [ -n "$postgresql_version" ]; then
+    install_command="$install_command-$postgresql_version"
+  fi
+  install 'PostgreSQL' "$install_command" libpq-dev
+}
+
+function create_db_user {
+  sudo -u postgres createuser -s -e vagrant
+}
+
+function install_postgresql_and_create_db_user {
+  install_postgresql
+  create_db_user
+}
+# End of Additional software installation
 
 # Ruby installation
 function install_ruby_install {
@@ -60,13 +120,13 @@ function enable_ruby_auto_switch {
 }
 
 function set_default_ruby {
-  append_to_file '' ~/.profile # insert empty line first
   append_to_file "chruby ruby-$ruby_version" ~/.profile
+  update_profile
 }
 
 function config_chruby {
-  append_to_file '' ~/.bashrc # insert empty line first
   append_to_file 'source /usr/local/share/chruby/chruby.sh' ~/.bashrc
+  update_bash
 
   set_default_ruby
   enable_ruby_auto_switch
@@ -89,59 +149,6 @@ function disable_ruby_doc {
 }
 # End of Ruby installation
 
-# Additional software installation
-function install_git {
-  sudo add-apt-repository ppa:git-core/ppa
-  update_packages
-
-  install 'Git' git
-}
-
-function install_node {
-  curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-  install 'NodeJS with npm' nodejs
-}
-
-function set_node_permissions {
-  echo 'Setting correct NodeJS permissions...'
-  mkdir ~/.npm-global
-  npm config set prefix '~/.npm-global'
-  append_to_file '' ~/.profile # insert empty line first
-  append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
-}
-
-function install_node_and_set_permissions {
-  install_node
-  set_node_permissions
-}
-
-function install_postgresql {
-  append_to_file_sudo \
-    'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' \
-    /etc/apt/sources.list.d/pgdg.list
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
-    sudo apt-key add -
-  update_packages
-
-  install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
-}
-
-function create_db_user {
-  sudo -u postgres createuser -s -e vagrant
-}
-
-function install_postgresql_and_create_db_user {
-  install_postgresql
-  create_db_user
-}
-
-function install_additional_soft {
-  install_git
-  install_node_and_set_permissions
-  install_postgresql_and_create_db_user
-}
-# End of Additional software installation
-
 function switch_ruby_once {
   source /usr/local/share/chruby/chruby.sh
   chruby ruby-"$ruby_version"
@@ -149,26 +156,25 @@ function switch_ruby_once {
 
 function install_rails {
   echo 'Installing Rails...'
-  # gem install rails -v "~> $rails_version"
-  gem install rails --pre
+
+  install_command='rails'
+  if [ -n "$rails_version" ]; then
+    install_command="$install_command -v ~> $rails_version"
+  fi
+  gem install "$install_command"
 }
 
 function install_gems {
-  switch_ruby_once # Manually switch Ruby for provision run
-
+  # switch_ruby_once # Manually switch Ruby for provision run
   install_rails
 }
 
-function update_bash_and_profile {
-  source ~/.bashrc
-  source ~/.profile
-}
-
 update_packages
+install_git
+install_node_and_set_permissions
+install_postgresql_and_create_db_user
 install_ruby_with_chruby
 disable_ruby_doc
-install_additional_soft
 install_gems
-update_bash_and_profile
 
 echo 'All set, rock on!'

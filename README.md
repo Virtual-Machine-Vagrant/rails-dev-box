@@ -1,5 +1,5 @@
 # rails-dev-box
-A Vagrant powered virtual machine for Ruby on Rails application development.
+A Vagrant powered virtual machine for Ruby on Rails application development
 
 ## Requirements
 
@@ -39,15 +39,15 @@ Install vagrant-vbguest plugin:
 
 ## What's In The Box
 
-* Ruby 2.3 with chruby and disabled automatic documentation installation
+* Current stable Ruby with chruby and disabled automatic documentation installation
 
-* Rails 5.0 pre-release
+* Current stable Rails
 
-* Latest stable Git
+* Current stable PostgreSQL with 'vagrant' superuser
 
-* NodeJS v4 LTS with npm
+* Current stable Git
 
-* PostgreSQL 9.5
+* Current stable NodeJS v4 LTS with Npm
 
 ## License
 
