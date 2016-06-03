@@ -23,6 +23,6 @@ Vagrant.configure(2) do |config|
   end
 
   # Install required software
-  # config.vm.provision 'shell', path: 'bootstrap.sh', privileged: false,
-  #                              keep_color: true
+  config.vm.provision 'shell', path: 'bootstrap.sh', privileged: false,
+                               keep_color: true
 end

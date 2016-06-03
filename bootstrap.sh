@@ -30,7 +30,7 @@ function update_packages {
   sudo apt-get -y update
 }
 
-function update_bash {
+function update_bashrc {
   source ~/.bashrc
 }
 
@@ -115,19 +115,29 @@ function install_chruby {
   return_to_home_dir
 }
 
-function enable_ruby_auto_switch {
-  append_to_file 'source /usr/local/share/chruby/auto.sh' ~/.bashrc
+function switch_ruby_once {
+  source /usr/local/share/chruby/chruby.sh
+  chruby ruby
+}
+
+function autoload_chruby {
+  append_to_file 'source /usr/local/share/chruby/chruby.sh' ~/.bashrc
+  update_bashrc
 }
 
 function set_default_ruby {
-  append_to_file "chruby ruby-$ruby_version" ~/.profile
+  append_to_file "chruby ruby" ~/.profile
   update_profile
 }
 
-function config_chruby {
-  append_to_file 'source /usr/local/share/chruby/chruby.sh' ~/.bashrc
-  update_bash
+function enable_ruby_auto_switch {
+  append_to_file 'source /usr/local/share/chruby/auto.sh' ~/.bashrc
+  update_bashrc
+}
 
+function config_chruby {
+  switch_ruby_once
+  autoload_chruby
   set_default_ruby
   enable_ruby_auto_switch
 }
@@ -149,11 +159,6 @@ function disable_ruby_doc {
 }
 # End of Ruby installation
 
-function switch_ruby_once {
-  source /usr/local/share/chruby/chruby.sh
-  chruby ruby-"$ruby_version"
-}
-
 function install_rails {
   echo 'Installing Rails...'
 
@@ -165,7 +170,6 @@ function install_rails {
 }
 
 function install_gems {
-  # switch_ruby_once # Manually switch Ruby for provision run
   install_rails
 }
 
