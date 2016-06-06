@@ -7,11 +7,12 @@ ruby_version='' # '2.3'
 rails_version='' # '4.2'
 
 # Heper functions
-function append_to_file {
-  echo $1 | tee -a $2
+function add_ppa {
+  sudo add-apt-repository $1
+  update_packages
 }
 
-function append_to_file_sudo {
+function append_to_file {
   echo $1 | sudo tee -a $2
 }
 
@@ -41,9 +42,7 @@ function update_profile {
 
 # Additional software installation
 function install_git {
-  sudo add-apt-repository ppa:git-core/ppa
-  update_packages
-
+  add_ppa ppa:git-core/ppa
   install 'Git' git
 }
 
@@ -66,7 +65,7 @@ function install_node_and_set_permissions {
 }
 
 function install_postgresql {
-  append_to_file_sudo \
+  append_to_file \
     'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' \
     /etc/apt/sources.list.d/pgdg.list
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \

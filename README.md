@@ -27,7 +27,7 @@ After the installation has finished, you can access the virtual machine with
 
 Port 3000 in the host computer is forwarded to port 3000 in the virtual machine. Thus, applications running in the virtual machine can be accessed via localhost:3000 in the host computer. Be sure the web server is bound to the IP 0.0.0.0, instead of 127.0.0.1, so it can access all interfaces:
 
-    rails server -b 0.0.0.0
+    $ rails server -b 0.0.0.0
 
 Don't forget to look at some helper shell scripts for newbies.
 
@@ -35,7 +35,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 Install vagrant-vbguest plugin:
 
-    $ vagrant plugin install vagrant-vbguest
+    host $ vagrant plugin install vagrant-vbguest
 
 ## What's In The Box
 
