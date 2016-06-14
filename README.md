@@ -7,10 +7,6 @@ A Vagrant powered virtual machine for Ruby on Rails application development
 
 * [Vagrant](http://vagrantup.com)
 
-## Recommended software
-
-* [Vagrant-vbguest plugin](https://github.com/dotless-de/vagrant-vbguest)
-
 ## How To Build The Virtual Machine
 
 Building the virtual machine is this easy:
@@ -27,27 +23,21 @@ After the installation has finished, you can access the virtual machine with
 
 Port 3000 in the host computer is forwarded to port 3000 in the virtual machine. Thus, applications running in the virtual machine can be accessed via localhost:3000 in the host computer. Be sure the web server is bound to the IP 0.0.0.0, instead of 127.0.0.1, so it can access all interfaces:
 
-    $ rails server -b 0.0.0.0
+    $ bin/rails server -b 0.0.0.0
 
 Don't forget to look at some helper shell scripts for newbies.
 
-## Install recommended software
-
-Install vagrant-vbguest plugin:
-
-    host $ vagrant plugin install vagrant-vbguest
-
 ## What's In The Box
 
-* Current stable Ruby with chruby and disabled automatic documentation installation
+* Ubuntu 16.04
 
-* Current stable Rails
+* PostgreSQL 9.5 with 'vagrant' superuser
 
-* Current stable PostgreSQL with 'vagrant' superuser
+* Ruby 2.3.1 with disabled automatic documentation
 
-* Current stable Git
+* Git 2.7.4
 
-* Current stable NodeJS v4 LTS with Npm
+* NodeJS v4.2.6
 
 ## License
 
