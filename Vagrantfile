@@ -12,8 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  # config.vm.box = 'geerlingguy/ubuntu1604'
-  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box = 'geerlingguy/ubuntu1604'
 
   # Forward ports
   config.vm.network 'forwarded_port', guest: 3000, host: 3000 # Rails dev port
