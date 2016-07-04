@@ -2,10 +2,10 @@
 # Run psql
 
 # Use database to connect to if provided
-db=''
+db_arg=''
 if [ -n "$1" ]; then
-  db="-d $1"
+  db_arg="-d $1"
 fi
 
 echo 'Running psql...'
-sudo -u postgres psql "$db"
+sudo -u postgres psql "$db_arg"
