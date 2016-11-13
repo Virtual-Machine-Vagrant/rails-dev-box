@@ -31,13 +31,13 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * Ubuntu 16.04
 
-* PostgreSQL 9.5 with 'vagrant' superuser
+* PostgreSQL 9.6 with 'vagrant' superuser and allowed external connections
 
-* Ruby 2.3.1 with disabled automatic documentation
+* Ruby 2.3 with disabled automatic documentation
 
-* Git 2.7.4
+* Git 2.7
 
-* NodeJS v4.2.6
+* NodeJS v6.9 LTS with Npm v3.10
 
 ## License
 
