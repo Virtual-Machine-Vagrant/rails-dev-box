@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# Bootstrap file for setting Ruby on Rails development environment
+# Bootstrap file for setting Ruby on Rails development environment.
 
 ruby_version='2.3.1'
+postgresql_version='9.6'
 
 # Heper functions
 function append_to_file {
-  echo "$1" >> "$2"
+  echo "$1" | sudo tee -a "$2"
+}
+
+function replace_in_file {
+  sudo sed -i "$1" "$2"
 }
 
 function install {
@@ -25,19 +30,59 @@ function install_dependencies {
   install 'Ruby dependencies' git build-essential libssl-dev libreadline-dev
 }
 
+# PostgreSQL
 function install_postgresql {
-  install 'PostgreSQL' postgresql libpq-dev
+  append_to_file \
+    'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' \
+    /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    sudo apt-key add -
+  update_packages
+
+  install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
 }
 
-function create_db_user {
+function create_vagrant_superuser {
   sudo -u postgres createuser -s vagrant
 }
 
-function install_postgresql_and_create_db_user {
-  install_postgresql
-  create_db_user
+function allow_external_connections {
+  append_to_file \
+    'host all all all password' \
+    /etc/postgresql/"$postgresql_version"/main/pg_hba.conf
+  replace_in_file \
+    "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" \
+    /etc/postgresql/"$postgresql_version"/main/postgresql.conf
 }
 
+function install_postgresql_and_allow_external_connections {
+  install_postgresql
+  create_vagrant_superuser
+  allow_external_connections
+}
+# End of PostgreSQL
+
+# NodeJS
+function install_node {
+  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  install 'NodeJS' nodejs
+}
+
+function set_npm_permissions {
+  echo 'Setting correct Npm permissions...'
+  mkdir ~/.npm-global
+  npm config set prefix '~/.npm-global'
+  append_to_file 'export PATH=~/.npm-global/bin:$PATH' ~/.profile
+  source ~/.profile
+}
+
+function install_node_and_npm {
+  install_node
+  set_npm_permissions
+}
+# End of NodeJS
+
+# Ruby
 function install_rbenv {
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv
   append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' ~/.profile
@@ -69,25 +114,19 @@ function install_ruby_and_disable_doc {
   disable_ruby_doc
 }
 
-function create_node_symlink {
-  sudo ln -s /usr/bin/nodejs /usr/bin/node
-}
-
-function install_node {
-  install 'NodeJS' nodejs
-  create_node_symlink
-}
-
 function install_bundler {
   echo 'Installing Bundler...'
   gem install bundler
+  rbenv rehash # Make sure Bundler commands are shimmed.
 }
+# End of Ruby
+
 
 update_packages
 install_dependencies
-install_postgresql_and_create_db_user
-install_ruby_and_disable_doc
+install_postgresql_and_allow_external_connections
 install_node
+install_ruby_and_disable_doc
 install_bundler
 
 echo 'All set, rock on!'
