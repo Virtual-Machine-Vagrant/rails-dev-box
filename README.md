@@ -35,7 +35,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * Ruby 2.3 with disabled automatic documentation
 
-* Git 2.7
+* Git 2.10
 
 * NodeJS v6.9 LTS with Npm v3.10
 
