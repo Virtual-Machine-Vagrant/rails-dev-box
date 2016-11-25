@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Bootstrap file for setting Ruby on Rails development environment.
 
-ruby_version='2.3.1'
+ruby_version='2.3.3'
 postgresql_version='9.6'
 
 # Heper functions
@@ -11,6 +11,10 @@ function append_to_file {
 
 function replace_in_file {
   sudo sed -i "$1" "$2"
+}
+
+function add_repository {
+  sudo add-apt-repository "$1"
 }
 
 function install {
@@ -25,10 +29,20 @@ function update_packages {
 }
 # End of Heper functions
 
+# Dependencies
+function install_git {
+  add_repository ppa:git-core/ppa
+  update_packages
+  install 'Git' git
+}
+
 function install_dependencies {
   sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
-  install 'Ruby dependencies' git build-essential libssl-dev libreadline-dev
+
+  install_git
+  install 'Ruby dependencies' build-essential libssl-dev libreadline-dev
 }
+# Enf of Dependencies
 
 # PostgreSQL
 function install_postgresql {
@@ -122,7 +136,6 @@ function install_bundler {
 # End of Ruby
 
 
-update_packages
 install_dependencies
 install_postgresql_and_allow_external_connections
 install_node
