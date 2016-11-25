@@ -31,7 +31,7 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * Ubuntu 16.04
 
-* PostgreSQL 9.6 with 'vagrant' superuser and allowed external connections
+* PostgreSQL 9.6 with 'ubuntu' superuser and allowed external connections
 
 * Ruby 2.3 with disabled automatic documentation
 
