@@ -56,7 +56,7 @@ function install_postgresql {
   install 'PostgreSQL' postgresql-"$postgresql_version" libpq-dev
 }
 
-function create_vagrant_superuser {
+function create_postgresql_superuser {
   sudo -u postgres createuser -s ubuntu
 }
 
@@ -71,7 +71,7 @@ function allow_external_connections {
 
 function install_postgresql_and_allow_external_connections {
   install_postgresql
-  create_vagrant_superuser
+  create_postgresql_superuser
   allow_external_connections
 }
 # End of PostgreSQL
