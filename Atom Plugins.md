@@ -18,3 +18,5 @@ A collection of Atom plugins for comfortable Ruby on Rails development.
 * [linter-rubocop](https://atom.io/packages/linter-rubocop) - Lint Ruby on the fly, using rubocop. Requires [Rubocop](https://github.com/bbatsov/rubocop) to lint Ruby code.
 
 * [linter-eslint](https://atom.io/packages/linter-eslint) - Lint JavaScript on the fly, using ESLint.
+
+* [git-plus](https://atom.io/packages/git-plus) - Do git things without the terminal.
