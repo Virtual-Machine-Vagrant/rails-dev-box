@@ -138,8 +138,9 @@ function install_bundler {
 
 install_dependencies
 install_postgresql_and_allow_external_connections
-install_node
+install_node_and_npm
 install_ruby_and_disable_doc
 install_bundler
+
 
 echo 'All set, rock on!'
