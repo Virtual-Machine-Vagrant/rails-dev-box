@@ -33,11 +33,11 @@ Don't forget to look at some helper shell scripts for newbies.
 
 * PostgreSQL 9.6 with 'ubuntu' superuser and allowed external connections
 
-* Ruby 2.3 with disabled automatic documentation
-
-* Git 2.10
+* Ruby 2.4 with disabled automatic documentation
 
 * NodeJS v6.9 LTS with Npm v3.10
+
+* Latest stable Git
 
 ## License
 
