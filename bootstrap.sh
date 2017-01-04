@@ -121,7 +121,7 @@ function install_ruby {
 
 function disable_ruby_doc {
   echo 'Disabling automatic Ruby documentation installation...'
-  append_to_file 'gem: --no-rdoc --no-ri' ~/.gemrc
+  append_to_file 'gem: --no-document' ~/.gemrc
 }
 
 function install_ruby_and_disable_doc {
@@ -129,10 +129,14 @@ function install_ruby_and_disable_doc {
   disable_ruby_doc
 }
 
+function install_gem {
+  gem install "$1"
+  rbenv rehash # Make sure Bundler commands are shimmed.
+}
+
 function install_bundler {
   echo 'Installing Bundler...'
-  gem install bundler
-  rbenv rehash # Make sure Bundler commands are shimmed.
+  install_gem bundler
 }
 # End of Ruby
 
